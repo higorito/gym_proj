@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_proj/_core/cores.dart';
+import 'package:gym_proj/commum/snackbar_custom.dart';
 import 'package:gym_proj/components/decor_input_aut.dart';
 
 import '../services/auten_service.dart';
@@ -158,7 +159,15 @@ class _AutenticarTelaState extends State<AutenticarTela> {
       else{
         print("cadastrou!");
         print("${_emailController.text} - ${_senhaController.text} - ${_usuarioController.text}");
-        _authenService.cadastrarUser(email: _emailController.text, senha: _senhaController.text, usuario: _usuarioController.text);
+        _authenService.cadastrarUser(email: _emailController.text, senha: _senhaController.text, usuario: _usuarioController.text)
+          .then((String ? erro) { //then é o que vai acontecer depois que o cadastrarUser terminar de rodar
+            if(erro != null){
+              mostrarSnackbarCustom(context: context, msg: erro);
+            }
+            else{
+              mostrarSnackbarCustom(context: context, msg: "Cadastrado com sucesso!", erro: false);
+            }
+          } );
       }
     }
     else{
